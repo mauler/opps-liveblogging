@@ -51,7 +51,7 @@ class EventServerDetail(DetailView):
         pubsub = redis.object().pubsub()
         pubsub.subscribe(redis.key)
 
-        while True:
+        while True and pubsub.connection is not None:
             for m in pubsub.listen():
                 if m['type'] == 'message':
                     msg = u"compatibility: true\n"
